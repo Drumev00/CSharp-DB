@@ -1,0 +1,4 @@
+*.dtbcache
+*.suo
+*.lock
+*.ide
