@@ -1,0 +1,40 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+using PetStore.Data.Models;
+
+namespace PetStore.Data.Configurations
+{
+	public class CategoryConfiguration : IEntityTypeConfiguration<Category>
+	{
+		public void Configure(EntityTypeBuilder<Category> category)
+		{
+			category
+				.HasMany(c => c.Pets)
+				.WithOne(p => p.Category)
+				.HasForeignKey(p => p.CategoryId)
+				.OnDelete(DeleteBehavior.Restrict);
+
+			category
+				.HasMany(c => c.Food)
+				.WithOne(f => f.Category)
+				.HasForeignKey(f => f.CategoryId)
+				.OnDelete(DeleteBehavior.Restrict);
+
+			category
+				.HasMany(c => c.Toys)
+				.WithOne(t => t.Category)
+				.HasForeignKey(t => t.CategoryId)
+				.OnDelete(DeleteBehavior.Restrict);
+
+			category
+				.Property(c => c.Name)
+				.HasMaxLength(DataSettings.MaxNameLength)
+				.IsRequired();
+
+			category
+				.Property(c => c.Description)
+				.HasMaxLength(DataSettings.DescriptionMaxLength);
+		}
+	}
+}
